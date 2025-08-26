@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}Editing: {{ artwork.artwork_title }}{% endblock %}
+
+{% block content %}
+<header class="text-center my-5">
+  <h1>View / Edit Artwork</h1>
+  <p class="lead">{{ artwork.artwork_title }} by {{ artwork.artist_name }}</p>
+</header>
+
+<form id="edit-form" action="{{ url_for('view_artwork', artwork_uuid=artwork.artwork_uuid) }}" method="POST" enctype="multipart/form-data">
+  
+  <input type="hidden" name="current_image" value="{{ artwork.image_filename }}">
+
+  <div class="row">
+    
+    <div class="col-md-4">
+      <h4>Current Image</h4>
+      <img src="{{ url_for('uploaded_file', filename=artwork.image_filename) if artwork.image_filename else 'https://via.placeholder.com/400' }}"
+           alt="{{ artwork.artwork_title }}"
+           class="img-fluid rounded mb-3">
+      <div class="mb-3">
+        <label for="artwork_image" class="form-label">Upload New Image (Optional)</label>
+        <input type="file" class="form-control" id="artwork_image" name="artwork_image" accept="image/*">
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      
+      <div class="card mb-4">
+        <div class="card-header"><h4>Core Information</h4></div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="artist_name" class="form-label">Artist's Name</label>
+            <input type="text" class="form-control" name="artist_name" value="{{ artwork.artist_name }}">
+          </div>
+          <div class="mb-3">
+            <label for="artwork_title" class="form-label">Artwork Title</label>
+            <input type="text" class="form-control" name="artwork_title" value="{{ artwork.artwork_title }}">
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header"><h4>Administrative & Logistical Details</h4></div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="current_location" class="form-label">Current Location</label>
+              <input type="text" class="form-control" id="current_location" name="current_location" value="{{ artwork.current_location }}">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="artwork_value" class="form-label">Value (£)</label>
+              <input type="number" step="0.01" class="form-control" id="artwork_value" name="artwork_value" value="{{ artwork.artwork_value }}">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card mb-4">
+        <div class="card-header"><h4>Physical Attributes</h4></div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="materials" class="form-label">Materials/Technique</label>
+            <input type="text" class="form-control" name="materials" value="{{ artwork.materials }}">
+          </div>
+          <div class="mb-3">
+            <label for="dimensions" class="form-label">Dimensions</label>
+            <input type="text" class="form-control" name="dimensions" value="{{ artwork.dimensions }}">
+          </div>
+          <div class="mb-3">
+            <label for="signature_details" class="form-label">Signature Details</label>
+            <textarea class="form-control" name="signature_details" rows="2">{{ artwork.signature_details }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="condition_notes" class="form-label">Condition Notes</label>
+            <textarea class="form-control" name="condition_notes" rows="2">{{ artwork.condition_notes }}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header"><h4>Contextual & Descriptive Information</h4></div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="subject_content" class="form-label">Subject/Content</label>
+            <textarea class="form-control" name="subject_content" rows="3">{{ artwork.subject_content }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" name="description" rows="3">{{ artwork.description }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="exhibition_history" class="form-label">Exhibition History</label>
+            <textarea class="form-control" name="exhibition_history" rows="3">{{ artwork.exhibition_history }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="provenance" class="form-label">Provenance</label>
+            <textarea class="form-control" name="provenance" rows="3">{{ artwork.provenance }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="bibliography" class="form-label">Bibliography/Literature</label>
+            <textarea class="form-control" name="bibliography" rows="3">{{ artwork.bibliography }}</textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+    <button id="save-button" type="submit" class="btn btn-success">
+      <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+      <span class="button-text">Save Changes</span>
+    </button>
+  </div>
+</form>
+
+<script>
+  // Find the form and the save button by their IDs
+  const editForm = document.getElementById('edit-form');
+  const saveButton = document.getElementById('save-button');
+  const buttonSpinner = saveButton.querySelector('.spinner-border');
+  const buttonText = saveButton.querySelector('.button-text');
+
+  // Add an event listener for when the form is submitted
+  editForm.addEventListener('submit', function() {
+    // Disable the button to prevent multiple clicks
+    saveButton.disabled = true;
+    // Hide the text
+    buttonText.textContent = 'Saving...';
+    // Show the spinner
+    buttonSpinner.classList.remove('d-none');
+  });
+</script>
+
+{% endblock %}

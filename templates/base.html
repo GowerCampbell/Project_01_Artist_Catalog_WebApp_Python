@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Artist Catalog - Manage and showcase artwork with ease."
+    />
+    <meta name="author" content="StoryED" />
+    <meta name="keywords" content="art, catalog, artist, gallery, portfolio" />
+
+    <meta property="og:title" content="Artist Catalog" />
+    <meta
+      property="og:description"
+      content="Explore and manage a collection of artworks."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yourdomain.com" />
+    <meta
+      property="og:image"
+      content="{{ url_for('static', filename='images/og-image.jpg') }}"
+    />
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/favicon.png') }}"
+    />
+
+    <title>{% block title %}Artist Catalog{% endblock %}</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/normalize.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body class="d-flex flex-column h-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Artist Catalog</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link {% if active_page == 'home' %}active{% endif %}"
+                href="{{ url_for('index') }}"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link {% if active_page == 'add_artwork' %}active{% endif %}"
+                href="{{ url_for('add_artwork') }}"
+                >Add Artwork</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#aboutModal"
+                >About</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-shrink-0 container py-5">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer mt-auto py-3 bg-dark text-white text-center">
+      <div class="container">
+        <p class="mb-2">Created by StoryED &copy; {{ now.strftime('%Y') }}</p>
+        <p class="mb-0">
+          <a
+            href="mailto:Gower.Campbell@gmail.com"
+            aria-label="Contact via Email"
+            class="text-white"
+            >Email</a
+          >
+          |
+          <a
+            href="https://github.com/GowerCampbell"
+            aria-label="Visit GitHub Profile"
+            class="text-white"
+            >GitHub</a
+          >
+          |
+          <a
+            href="https://www.linkedin.com/in/gower-campbell-16940115b/"
+            aria-label="Visit LinkedIn Profile"
+            class="text-white"
+            >LinkedIn</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <div
+      class="modal fade"
+      id="aboutModal"
+      tabindex="-1"
+      aria-labelledby="aboutModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aboutModalLabel">About This Project</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              This tool was originally created for my mom, to help her catalog
+              her mother's artwork in a way that could be easily shared with
+              others.
+            </p>
+            <p>
+              Believing that artists and collectors everywhere could benefit
+              from a simple, organized system, I decided to make this project
+              public. Hopefully, it can help others preserve and share an
+              artistic legacy.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
